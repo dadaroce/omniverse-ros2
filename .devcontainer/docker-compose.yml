@@ -1,0 +1,54 @@
+services:
+  omniverse-ros2:
+    build:
+      context: ../
+      dockerfile: .devcontainer/Dockerfile
+    user: "omniverse"
+    working_dir: /workspace
+    network_mode: host
+
+    init: true
+    privileged: true
+
+    ports:
+      - "8080:8080"
+      - "33480:33480"
+    expose:
+      - 443
+      - 80
+      - 4567
+
+    environment:
+      - DISPLAY=$DISPLAY
+      - QT_X11_NO_MITSHM=1
+      - UDEV=1
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - NVIDIA_VISIBLE_DEVICES=all
+
+    volumes:
+      - ..:/workspace
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /lib/modules:/lib/modules
+      - /dev:/dev
+      - /run/dbus/system_bus_socket:/host/run/dbus/system_bus_socket
+
+    devices:
+      - /dev/snd:/dev/snd
+
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
+
+    stdin_open: true
+    tty: true
+    command: "/bin/bash"
