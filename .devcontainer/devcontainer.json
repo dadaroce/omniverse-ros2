@@ -1,0 +1,22 @@
+{
+	"name": "Dev container for Omniverse and ROS2",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "omniverse-ros2",
+	"workspaceFolder": "/workspace",
+	"runArgs": [
+		"--runtime=nvidia"
+	],
+	"settings": {
+		"terminal.integrated.automationShell.linux": "/bin/bash",
+		"editor.formatOnSave": true,
+		"python.formatting.provider": "black",
+		"python.formatting.blackPath": "/usr/local/bin/black",
+	},
+	"extensions": [
+		"eamodio.gitlens",
+		"streetsidesoftware.code-spell-checker",
+		"ms-vsliveshare.vsliveshare",
+		"uloco.theme-bluloco-dark",
+	],
+	"remoteUser": "omniverse"
+}
